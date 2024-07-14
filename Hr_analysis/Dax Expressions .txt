@@ -1,0 +1,22 @@
+Dax Expressions: 
+
+1. Presence % = DIVIDE([Present days], [Total working days])
+2. Present days = var pres = CALCULATE(count('Final Data'[Value]), 'Final Data'[Value]="P")
+var wfCount = sum('Final Data'[WFH count])
+return 
+pres+wfCount
+3. Sick Leave % = var totDays = [Total working days]-[Present days]
+return DIVIDE([Sick leave count], totDays) 
+4. Sick leave count = CALCULATE(COUNT('Final Data'[Value]), 'Final Data'[Value] in {"SL","HSL"})
+5. Total working days = var totworkDays = count('Final Data'[Value])
+var holidays = CALCULATE(count('Final Data'[Value]), 'Final Data'[Value] in {"HO", "WO"})
+return 
+totworkDays - holidays
+6. WFH % = DIVIDE([WFH Count], [Present days], 0)
+7. WFH Count = SUM('Final Data'[WFH count])
+8. WFH count = SWITCH(TRUE(), 'Final Data'[Value]="WFH", 1,
+  'Final Data'[Value]="HWFH", 0.5, 0)
+9. Sick Leave = SWITCH(TRUE(), 'Final Data'[Value]="SL", 1,
+  'Final Data'[Value]="HSL", 0.5, 0)
+10. Day of week = FORMAT('Final Data'[Date], "ddd")
+
